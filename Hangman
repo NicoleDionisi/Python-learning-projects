@@ -1,0 +1,42 @@
+import random
+import os
+
+if os.path.exists ("popular_words.txt"):
+    with open("popular_words.txt", "r", encoding="utf-8") as file:
+        word_list=[line.strip().lower() for line in file.readlines() if len(line.strip()) > 3 and len(line.strip())<9]
+else:
+    word_list=["spoon", "elbow", "watermelon", "chair", "candle", "wardrobe", "pillow", "heaven", "someone", "bridge"]
+
+word=random.choice(word_list)
+
+board = ["_"] * len(word)
+tries = 10
+
+print("Let's play hangman in english!")
+print("Word:", " ".join(board))
+while True:
+   if tries>0:
+    guess=input("Try to guess a letter ")
+    if guess.isalpha():
+        if len(guess)==1:
+         print(f"The letter is {guess}")
+         if guess in word:
+          for i, l in enumerate(word):
+           if l==guess:
+             board[i]=guess
+          print(f"The word is {board}")
+         else:
+            tries=tries-1
+            print(f"You got it wrong! You have {tries} tries left")
+        else:
+            print("You must enter one letter")
+    else:
+        print("You must enter a letter")
+   if tries==0:
+      print("You lost, that's too bad!!!")
+      print(f"The word is {word}")
+      break
+   if "_" not in board:
+      print("Congratulations! You won!!!")
+      print(f"The word was: {word}")
+      break
